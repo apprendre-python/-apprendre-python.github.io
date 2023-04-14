@@ -23,7 +23,7 @@ const config = {
     // If you aren't using GitHub pages, you don't need these.
     organizationName: 'apprendre-python', // Usually your GitHub org/user name.
     projectName: 'apprendre-python.github.io', // Usually your repo name.
-    deploymentBranch: 'main',
+    deploymentBranch: 'gh-pages',
     trailingSlash: false,
 
     // Even if you don't use internalization, you can use this field to set useful
