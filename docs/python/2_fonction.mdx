@@ -1,0 +1,18 @@
+import CodeEditor from '../../src/components/CodeEditor'
+
+# Fonctions
+
+<center><img src="https://raw.githubusercontent.com/fortierq/tikz-pdf/main/programming/function/function.png" width="400"/></center>
+
+:::info Question
+Écrire une fonction `f(x)` renvoyant $x^2$.
+:::
+
+export const solution = `def f(x):
+    return x**2
+`
+
+<CodeEditor
+    tests={[['f(1)',1],['f(0)',0],['f(3)',9]]}
+    solution={solution}
+/>
