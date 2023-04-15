@@ -21,7 +21,7 @@ const editorOnLoad = (editor) => {
 }
 
 interface CodeEditorProps {
-    init: string
+    code?: string
     tests?: [string, string]
     solution?: string
     packages?: Packages
@@ -35,8 +35,8 @@ interface CodeEditorProps {
 //     return <div ref={containerRef} />
 // }
 
-export default function CodeEditor({ init, tests, solution, packages }: CodeEditorProps) {
-    const [input, setInput] = useState(init)
+export default function CodeEditor({ code, tests, solution, packages }: CodeEditorProps) {
+    const [input, setInput] = useState(code ? code.trimEnd() : '')
     const [showOutput, setShowOutput] = useState(false)
     const { colorMode } = useColorMode()
     const output = usePython({ packages })
@@ -45,6 +45,7 @@ export default function CodeEditor({ init, tests, solution, packages }: CodeEdit
     function run() {
         output.runPython(input)
         setShowOutput(true)
+        if (!tests) return
         const test_str = `${input.replace(/print\(.*\)/g, '')}\n` + tests.map((test) => `print(${test[0]})`).join('\n')
         console.log(test_str)
         test.runPython(test_str)
@@ -57,14 +58,18 @@ export default function CodeEditor({ init, tests, solution, packages }: CodeEdit
 
     function reset() {
         setShowOutput(false)
-        setInput(solution.trimEnd())
+        setInput(code ? code.trimEnd() : '')
     }
 
     let [verdict, verdict_message] = [-1, '✅ Tests passés avec succès !'];
-    if (test.stdout) {
+    if (test.stderr) {
+        verdict_message = `❌ Erreur : ${test.stderr}`;
+        verdict = 0;
+    }
+    else if (test.stdout) {
         let lines = test.stdout.trim().split('\n');
         for (let i = 0; i < lines.length; i++)
-            if (lines[i] != tests[i][1]) {
+            if (parseFloat(lines[i]).toFixed(2) !== parseFloat(tests[i][1]).toFixed(2)) {
                 verdict_message = `❌ Erreur : ${tests[i][0]} renvoie ${lines[i]} au lieu de ${tests[i][1]}`;
                 verdict = 0;
                 break;
@@ -121,13 +126,13 @@ export default function CodeEditor({ init, tests, solution, packages }: CodeEdit
                 </BrowserOnly>
                 {showOutput && (
                     <pre className="mt-4 text-left">
-                        {output.stdout}
-                        {verdict === 1 && <code className="text-green-500">{verdict_message}</code>}
-                        {verdict === 0 && <code className="text-red-500">{verdict_message}</code>}
+                        {output.stdout && output.stdout}
+                        {verdict === 1 && verdict_message && <code className="">{verdict_message}</code>}
+                        {verdict === 0 && verdict_message && <code className="">{verdict_message}</code>}
                         <code className="text-red-500">{output.stderr}</code>
                     </pre>
                 )}
-                    {verdict === 1 && <Details summary='Solution' className='bg-green-100 dark:bg-green-900'>
+                    {verdict === 1 && solution && <Details summary='Solution' className='bg-green-100 dark:bg-green-900'>
                         <CodeBlock
                             language="python"
                             showLineNumbers>

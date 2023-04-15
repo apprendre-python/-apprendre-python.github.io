@@ -1,0 +1,59 @@
+--- 
+hide_table_of_contents: true
+---
+
+import { usePython } from 'react-py'
+import CodeEditor from '../../../src/components/CodeEditor'
+
+# Fonction à plusieurs arguments
+
+Une fonction peut prendre plusieurs arguments, séparés par des virgules :
+
+```python
+def f(x,y):
+    return x**2 + y**2
+
+print(f(2, 3))
+```
+
+:::info Question
+Écrire une fonction `delta(a, b, c)` renvoyant $\Delta = b^2 - 4ac$ (discriminant d'une équation du second degré $ax^2+bx+c=0$).
+
+<CodeEditor
+    tests={[['delta(1, 2, 3)', -8], ['delta(1, 2, 1)',0], ['delta(1, 2, 0)',4]]}
+    solution={`def delta(a, b, c):
+    return b**2 - 4*a*c
+`}/>
+:::
+
+## Fonction en argument
+
+Il est possible d'avoir une fonction en argument d'une autre fonction :
+
+```python
+def derive(f, x, h):
+    return (f(x + h) - f(x))/h
+
+def g(x):
+    return x**2
+
+print(derive(g, 2, 0.01))
+```
+Ainsi, `derive` prend trois arguments, dont `f` qui est une fonction.  
+
+:::info Question
+Si $n\in\mathbb{N}$ et $f : \mathbb{R} \to \mathbb{R}$ est une fonction continue, définie sur $[a,b]$ alors on peut approximer $\int_a^b f(x) dx$ par la somme de Riemann : 
+$$
+    \frac{b-a}{n}\sum_{k=0}^n f(a + k\frac{(b-a)}{n})
+$$
+Écrire une fonction `riemann(f, a, b, n)` qui renvoie cette approximation.
+<CodeEditor
+    tests={[['riemann(lambda x: x, 1, 2, 100)', 1.5], ['riemann(lambda x: x, 2, 3, 100)', 2.5], ['riemann(lambda x: x**2, -2, 0, 100)', 2.71]]}
+    solution={`def riemann(f, a, b, n):
+    h = (b-a)/n
+    s = 0
+    for k in range(n):
+        s += f(a + k*h)
+    return s*h
+`}/>
+:::

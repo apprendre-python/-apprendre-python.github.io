@@ -43,8 +43,8 @@ const config = {
                     sidebarPath: require.resolve('./sidebars.js'),
                     remarkPlugins: [math],
                     rehypePlugins: [katex],
-                    editUrl:
-                        'https://github.com/apprendre-python/apprendre-python.github.io',
+                    // editUrl:
+                    //     'https://github.com/apprendre-python/apprendre-python.github.io',
                 },
                 blog: false,
                 theme: {
