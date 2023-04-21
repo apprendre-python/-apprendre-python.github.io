@@ -1,0 +1,28 @@
+# Entiers : `int`
+
+## Opérations
+
+| Opération | Python | Exemple |
+|::|::|::|
+| Division (dans $\mathbb{Q}$) | `/` | `5/2` donne `2.5` |
+| Division euclidienne (dans $\mathbb{Z}$) | `//` | `5/2` donne `2` |
+| Modulo (reste de la division euclidienne) | `%` | `5%2` donne `1` |
+| Multiplication | `*` | `2*3` donne `6` |
+| Puissance | `**` | `2**3` donne `8` |
+
+`a // b` et `a % b` correspondent au quotient $q$ et au reste $r = a\text{ mod } b$ de la division euclidienne de $a$ par $b$ vérifiant : 
+$$
+    \begin{align*}
+        a &= bq + r \\
+        0 &\leq r < b
+    \end{align*}
+$$
+
+## Application : test de divisibilité
+
+On peut utiliser `%` pour savoir si un entier $a$ est divisible par un entier $b$. En effet :
+$$
+    a \text{ divisible par } b \iff \exists q \in \mathbb{Z}, a = bq \iff a \text{ mod } b = 0
+$$
+
+## Représentation

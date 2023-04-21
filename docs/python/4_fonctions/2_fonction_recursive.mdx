@@ -1,0 +1,68 @@
+# Récursion
+
+## Fonctions récursives
+
+Une fonction est <H>récursive</H> si elle s'appelle elle-même. Voici un exemple de fonction récursive :
+
+```python
+def decompte(n):
+    if n == 0:
+        print("Bonne année !")
+    else:
+        print(n)
+        decompte(n-1)
+
+decompte(3)
+```
+
+<details>
+<summary>Visualiser l'exécution de <code>decompte(3)</code> avec Python Tutor</summary>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20decompte%28n%29%3A%0A%20%20%20%20if%20n%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20print%28%22Bonne%20ann%C3%A9e%20!%22%29%0A%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20print%28n%29%0A%20%20%20%20%20%20%20%20decompte%28n-1%29%0A%0Adecompte%283%29&codeDivHeight=400&codeDivWidth=350&cumulative=false&curInstr=1&heapPrimitives=nevernest&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+</details>
+
+Détaillons l'exécution de `decompte(3)` :
+1. `decompte(3)` affiche `3`, puis appelle `decompte(2)`. L'exécution de `decompte(3)` est mis en attente.
+2. `decompte(2)` affiche `2`, p uis appelle `decompte(1)`. L'exécution de `decompte(2)` est mis en attente.
+3. `decompte(1)` affiche `1`, puis appelle `decompte(0)`. L'exécution de `decompte(1)` est mis en attente.
+4. `decompte(0)` affiche `Bonne année !`, puis se termine.
+5. `decompte(1)` se termine.
+6. `decompte(2)` se termine.
+7. `decompte(3)` se termine.
+
+:::tip À retenir
+Une fonction récursive possède toujours deux parties :
+- Un ou plusieurs cas de base, dans lequel la fonction ne s'appelle pas elle-même. Dans `decompte`, c'est le cas où `n == 0`. 
+- Un ou plusieurs cas récursifs, dans lequel la fonction s'appelle elle-même. Dans `decompte`, c'est le `else`.
+:::
+
+:::info Question
+Qu'affiche le code suivant ? On séparera les nombres par des espaces.
+```py
+def f(n):
+    if n != 0:
+        print(n)
+        f(n-1)
+        print(n)
+
+f(3)
+```
+
+<QuestionInput solution="3 2 1 1 2 3" />
+:::
+
+## Applications
+
+
+## Terminaison et correction
+
+:::warning return ou print ?
+Une fonction récursive sans cas de base peut ne jamais terminer, de la même façon qu'un `while` peut faire boucle infinie.
+:::
+
+## Sous-fonction
+
+On peut définir une fonction à l'intérieur d'une autre fonction :
+
+```python
+```
+

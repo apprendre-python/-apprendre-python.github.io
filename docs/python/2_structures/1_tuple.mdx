@@ -1,0 +1,38 @@
+# Variables
+
+Une <H>variable</H> permet de stocker une valeur :
+```python
+a = 3 # définit une variable a qui vaut 3
+print(a) # affiche 3
+```
+Chaque variable possède :
+- un <H>nom</H> (ici `a`).
+- une <H>valeur</H> (ici `3`), stockée dans la mémoire RAM de l'ordinateur.
+- un <H>type</H> (ici `int` pour *integer*, c'est-à-dire un entier).
+
+On peut modifier la valeur d'une variable :
+```python
+a = 3
+a = 42 # la valeur de a est remplacée
+print(a) # affiche 42
+```
+
+:::info Question
+Donner les valeurs de `a` et `b` séparés par un espace, après l'exécution du code suivant.  
+Quel est l'intérêt de ce code ?
+```py
+a = 4
+b = 7
+a = a + b
+b = a - b
+a = a - b
+```
+	
+<QuestionInput solution="7 4" />
+:::
+
+<CodeEditor
+    tests={[['delta(1, 2, 3)', -8], ['delta(1, 2, 1)',0], ['delta(1, 2, 0)',4]]}
+    solution={`def delta(a, b, c):
+    return b**2 - 4*a*c
+`}/>

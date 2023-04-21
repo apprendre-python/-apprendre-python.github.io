@@ -21,6 +21,7 @@ const editorOnLoad = (editor) => {
 }
 
 interface CodeEditorProps {
+    python?: any
     code?: string
     tests?: [string, string]
     solution?: string
@@ -35,7 +36,7 @@ interface CodeEditorProps {
 //     return <div ref={containerRef} />
 // }
 
-export default function CodeEditor({ code, tests, solution, packages }: CodeEditorProps) {
+export default function CodeEditor({ python, code, tests, solution, packages }: CodeEditorProps) {
     const [input, setInput] = useState(code ? code.trimEnd() : '')
     const [showOutput, setShowOutput] = useState(false)
     const { colorMode } = useColorMode()
@@ -56,11 +57,6 @@ export default function CodeEditor({ code, tests, solution, packages }: CodeEdit
         setShowOutput(false)
     }
 
-    function reset() {
-        setShowOutput(false)
-        setInput(code ? code.trimEnd() : '')
-    }
-
     let [verdict, verdict_message] = [-1, '✅ Tests passés avec succès !'];
     if (test.stderr) {
         verdict_message = `❌ Erreur : ${test.stderr}`;
@@ -79,7 +75,7 @@ export default function CodeEditor({ code, tests, solution, packages }: CodeEdit
     }
     return (
         <div>
-            <div className="relative mb-10 flex flex-col">
+            <div className="relative mb-5 flex flex-col">
                 <Controls
                     items={[
                         {
@@ -88,13 +84,6 @@ export default function CodeEditor({ code, tests, solution, packages }: CodeEdit
                             onClick: run,
                             disabled: output.isLoading || output.isRunning,
                             hidden: output.isRunning
-                        },
-                        { label: 'Stop', icon: StopIcon, onClick: stop, hidden: !output.isRunning },
-                        {
-                            label: 'Reset',
-                            icon: ArrowPathIcon,
-                            onClick: reset,
-                            disabled: output.isRunning
                         }
                     ]}
                 />

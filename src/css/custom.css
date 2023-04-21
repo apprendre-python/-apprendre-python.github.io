@@ -41,12 +41,12 @@ grammarly-extension {
 [data-theme='dark'] img { filter: invert(100%) hue-rotate(180deg); }
 
 .highlight {
-    background-color: var(--ifm-color-warning-lightest);
+    background-color: yellow; /*var(--ifm-color-warning-lightest);*/
     border-radius: '10px';
     padding: '2rem';
 }
 [data-theme='dark'] .highlight { 
-    background-color: var(--ifm-color-warning-darkest);
+    background-color: rgba(255, 255, 0, 0.783); /*var(--ifm-color-warning-lightest);*/
     border-radius: '10px';
     padding: '2rem';
 }

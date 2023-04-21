@@ -87,7 +87,7 @@ const config = {
                 items: [
                     {
                         type: 'doc',
-                        docId: 'python/variable',
+                        docId: 'python/intro',
                         position: 'left',
                         label: 'Python'
                     },

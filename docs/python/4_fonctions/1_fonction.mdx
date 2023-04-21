@@ -1,0 +1,178 @@
+# Définition et utilisation
+
+## Fonction
+
+Une <H>fonction</H> permet de réutiliser un bloc d'instructions, ce qui présente plusieurs intérêts :  
+- Éviter les répétitions : définir une fonction pour un bloc d'instructions redondant donne un code plus court et modulable (il suffit de modifier la fonction et non chaque bloc d'instructions).
+- Améliorer la lisibilité du code, en séparant les différentes tâches avec des noms explicites.
+
+<center><img src="https://raw.githubusercontent.com/fortierq/tikz-pdf/main/programming/function/function.png" width="400"/></center>
+<br />
+
+Une fonction, comme en mathématiques, prend un ou plusieurs <H>arguments</H> (ou : paramètres, entrées) et renvoie une <H>valeur de retour</H>.
+
+Voici une fonction `f` ayant un nombre `x` en argument (entier ou flottant) et renvoyant son carré :
+
+```python
+def f(x):
+    return x**2 # corps de la fonction
+
+print(f(2))
+```
+
+Les instructions indentées après le `:` constituent le <H>corps de la fonction</H>.  
+
+`f(2)` est un <H>appel de fonction</H>, ce qui a les effets suivants :
+1. Une variable locale `x` est définie avec la valeur `2`.  
+2. Le corps de la fonction `f` est exécuté : `x**2` est calculé, ce qui donne la valeur `4`.
+3. `return` arrête l'appel de fonction et renvoie la valeur `4` à l'endroit où la fonction a été appelée.
+4. `print(f(2))` devient `print(4)` et afficher `4`.
+
+:::info Question
+Définir une fonction `sigmoide(x)` renvoyant $\frac{1}{1+e^{-x}}$.  
+On utilisera la fonction `exp` de la bibliothèque `math`
+
+<CodeEditor
+    tests={[['sigmoide(1)',0.7310585786300049],['sigmoide(0)',0.5]]}
+    solution={`import math
+def sigmoide(x):
+    return 1/(1+math.exp(-x))
+`}/>
+:::
+
+Il est possible d'appeler plusieurs fonctions à la suite. Par exemple, `f(g(5))` va d'abord appeler `g(5)` puis `f` avec le résultat de `g(5)` comme argument.
+
+:::info Question
+Que vaut `f(g(5))` avec les fonctions suivantes ?  
+```py
+def f(x):
+    return x**2
+def g(x):
+    return x+1
+```
+
+<QuestionInput solution="36" />
+:::
+
+:::warning return ou print ?
+Contrairement à `return`, il n'est pas possible de récupérer la valeur affichée par `print`.  
+Pour pouvoir réutiliser une fonction, il est donc préférable d'utiliser `return`.
+:::
+
+Le corps d'une fonction peut contenir plusieurs instructions, comme dans l'exemple suivant :
+
+```python
+def abs(x): # renvoie la valeur absolue de x
+    if x < 0:
+        return -x
+    else:
+        return x
+```
+
+:::info Question
+Définir une fonction `racines(delta)` renvoyant le nombre de racines d'une équation du second degré, étant donné son discriminant $\Delta$.
+
+<CodeEditor
+    tests={[['racines(0)',2],['racines(1)',1],['racines(-1)',0]]}
+    solution={`def racines(delta):
+    if delta < 0:
+        return 0
+    elif delta == 0:
+        return 1
+    else:
+        return 2
+`}/>
+:::
+
+## Variable locale
+
+Dans la fonction `f` précédente, `x` est une <H>variable locale</H> : elle n'existe que dans le corps de la fonction. On ne peut donc pas y accéder en dehors de la fonction. C'est l'analogue d'une variable muette $x$ dans une intégrale $\int_a^b f(x) dx$ en mathématiques.
+
+De même, toute variable définie à l'intérieur d'une fonction est locale à cette fonction :
+
+```python
+def f(x):
+    y = 3 # variable locale à f
+    return x + y
+
+print(f(2))
+print(x) # ERREUR : x n'existe pas ici
+print(y) # y non plus
+```
+
+## Fonction à plusieurs arguments
+
+Une fonction peut prendre plusieurs arguments, séparés par des virgules :
+
+```python
+def f(x, y):
+    return x**2 + y**2
+
+print(f(2, 3))
+```
+
+:::info Question
+Écrire une fonction `delta(a, b, c)` renvoyant $\Delta = b^2 - 4ac$ (discriminant d'une équation du second degré $ax^2+bx+c=0$).
+
+<CodeEditor
+    tests={[['delta(1, 2, 3)', -8], ['delta(1, 2, 1)',0], ['delta(1, 2, 0)',4]]}
+    solution={`def delta(a, b, c):
+    return b**2 - 4*a*c
+`}/>
+:::
+
+## Application aux listes
+
+La fonction suivante calcule la somme des éléments d'une liste :
+
+```python
+def somme(L):
+    s = 0
+    for x in L:
+        s += x
+    return s
+
+print(somme([1, 2, 3])) # 6
+```
+
+`somme` fonctionnerait avec n'importe quel itérable (que l'on peut parcourir, comme un `tuple` ou `string`), mais pas avec un nombre, par exemple (`somme(42)` provoquerait une erreur).
+
+Un autre problème classique est de déterminer si un élément appartient à une liste :
+
+```python
+def appartient(x, L): # détermine si x appartient à la liste L
+    for y in L:
+        if x == y:
+            return True
+    return False
+
+print(appartient(2, [3, 1, 2])) # True
+print(appartient(4, [1, 2, 3])) # False
+```
+
+`appartient(x, L)` renvoie donc un booléen.
+
+:::warning
+Il est fréquent de voir l'erreur suivante :
+
+```py
+def appartient(x, L):
+    for y in L:
+        if x == y:
+            return True
+        else:
+            return False # ERREUR
+```
+En effet, dès la première itération du `for`, un `return` est exécuté et la fonction s'arrête. Seul le premier élément de la liste est donc testé.  
+Le problème vient du `return False` : `x != y` pour un `y` ne permet pas de conclure que `x` n'appartient pas à `L`. C'est seulement après avoir parcouru la liste en entier qu'on peut conclure que `x` n'appartient pas à `L`.
+:::
+
+## Renvoyer plusieurs valeurs
+
+Une fonction ne peut renvoyer qu'une seule valeur avec `return`, mais cette valeur peut être un tuple ou une liste :
+
+```python
+```
+
+## Fonction sans `return`
+

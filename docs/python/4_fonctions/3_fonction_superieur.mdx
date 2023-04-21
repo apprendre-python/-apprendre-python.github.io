@@ -1,30 +1,4 @@
---- 
-hide_table_of_contents: true
----
-
-import { usePython } from 'react-py'
-import CodeEditor from '../../../src/components/CodeEditor'
-
-# Fonction à plusieurs arguments
-
-Une fonction peut prendre plusieurs arguments, séparés par des virgules :
-
-```python
-def f(x,y):
-    return x**2 + y**2
-
-print(f(2, 3))
-```
-
-:::info Question
-Écrire une fonction `delta(a, b, c)` renvoyant $\Delta = b^2 - 4ac$ (discriminant d'une équation du second degré $ax^2+bx+c=0$).
-
-<CodeEditor
-    tests={[['delta(1, 2, 3)', -8], ['delta(1, 2, 1)',0], ['delta(1, 2, 0)',4]]}
-    solution={`def delta(a, b, c):
-    return b**2 - 4*a*c
-`}/>
-:::
+# Fonctions d'ordre supérieur
 
 ## Fonction en argument
 
@@ -57,3 +31,14 @@ $$
     return s*h
 `}/>
 :::
+
+## Fonction en valeur de retour
+
+Il est également possible de renvoyer une fonction :
+
+```python
+def composee(f, g):
+    def h(x):
+        return f(g(x))
+    return h
+```
